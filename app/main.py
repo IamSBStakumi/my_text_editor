@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 from frames.editor import EditorFrame
+from frames.menu import EditorMenu
 
 # import tkinter.filedialog
 
@@ -124,6 +125,7 @@ def main():
     root = tk.Tk()
     root.title("My Editor")
     app = App(master=root)
+    root["menu"] = EditorMenu()
     app.grid(column=0, row=0, sticky=(tk.N, tk.S, tk.E, tk.W))
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
