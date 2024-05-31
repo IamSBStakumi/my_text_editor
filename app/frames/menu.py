@@ -6,6 +6,7 @@ class EditorMenu(tk.Menu):
         super().__init__(master, **kwargs)
 
         self.create_file_menu()
+        self.create_edit_menu()
 
     def create_file_menu(self):
         menu_file = tk.Menu(self)
@@ -18,3 +19,9 @@ class EditorMenu(tk.Menu):
         menu_file.add_separator()
         menu_file.add_command(label="終了", accelerator="Ctrl+Q")
         self.add_cascade(menu=menu_file, label="ファイル")
+
+    def create_edit_menu(self):
+        menu_edit = tk.Menu(self)
+        menu_edit.add_command(label="検索", accelerator="Ctrl+F")
+        menu_edit.add_command(label="置換", accelerator="Ctrl+H")
+        self.add_cascade(menu=menu_edit, label="編集")
