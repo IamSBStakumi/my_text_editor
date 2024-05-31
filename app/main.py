@@ -1,10 +1,29 @@
-import os
 import tkinter as tk
-import tkinter.filedialog
+import tkinter.ttk as ttk
 
-from functions import file_controller as fc
+from frames.editor import EditorFrame
+
+# import tkinter.filedialog
 
 # app_name = "テキストエディター"
+
+# def load_text(self, event=None):
+#     type = [("Markdown", "*.md"), ("Text", "*.txt"), ("Python", "*.py")]
+#     file_name = tkinter.filedialog.askopenfilename(filetypes=type)
+#     if file_name != "":
+#         file = None
+#         try:
+#             file = open(file_name, "r", encoding="utf-8")
+#             self.text_editor.delete("1.0", "end")
+#             self.text_editor.insert("1.0", file.read())
+#         except:
+#             file = open(file_name, "r", encoding="shift-jis")
+#             self.text_editor.delete("1.0", "end")
+#             self.text_editor.insert("1.0", file.read())
+#         finally:
+#             if file != None:
+#                 file.close()
+
 
 # def create_new_file():
 #     file_name = tkinter.filedialog.asksaveasfilename(
@@ -61,29 +80,55 @@ from functions import file_controller as fc
 # root.mainloop()
 
 
-class App(tk.Frame):
+class App(ttk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
-        self.pack()
-        self.master.geometry("800x600")
+        self.create_widgets()
 
-        self.create_menu_bar()
+        # text_editor = tkinter.Text(self, width=80, height=30)
+        # scroll_bar = tkinter.Scrollbar(
+        #     self, orient=tkinter.VERTICAL, command=text_editor.yview
+        # )
+        # scroll_bar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+        # text_editor.pack()
+        # text_editor["yscrollcommand"] = scroll_bar.set
 
-    def create_menu_bar(self):
-        menu_bar=tk.Menu(self)
-        menu_command = tk.Menu(menu_bar, tearoff=0)
-        menu_command.add_command(label="終了", command=self.quit_app, accelerator="Ctrl+Q")
-        menu_bar.add_cascade(label="ファイル", menu=menu_command)
-        
-        self.master.config(menu = menu_bar)
-    
-    def quit_app(self, event=None):
-        self.master.destroy()
+        # self.create_menu_bar()
+
+    def create_widgets(self):
+        self.editor_frame = EditorFrame(self)
+
+        self.editor_frame.grid(row=0, column=0, sticky=(tk.N, tk.S, tk.E, tk.W))
+
+    # def create_menu_bar(self):
+    #     menu_bar = tk.Menu(self)
+    #     menu_command = tk.Menu(menu_bar, tearoff=0)
+    #     menu_command.add_command(
+    #         label="新しいテキストファイル", command=self.load_file, accelerator="Ctrl+N"
+    #     )
+    #     menu_command.add_command(
+    #         label="終了", command=self.quit_app, accelerator="Ctrl+Q"
+    #     )
+    #     menu_bar.add_cascade(label="ファイル", menu=menu_command)
+
+    #     self.master.config(menu=menu_bar)
+
+    # def load_file(self, event=None):
+    #     load_text(self)
+
+    # def quit_app(self, event=None):
+    #     self.master.destroy()
+
 
 def main():
     root = tk.Tk()
+    root.title("My Editor")
     app = App(master=root)
+    app.grid(column=0, row=0, sticky=(tk.N, tk.S, tk.E, tk.W))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
     app.mainloop()
+
 
 if __name__ == "__main__":
     main()
