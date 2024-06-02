@@ -1,5 +1,7 @@
+import os
 import tkinter as tk
 import tkinter.ttk as ttk
+from functions import file_controller
 
 
 class EditorFrame(ttk.Frame):
@@ -45,6 +47,8 @@ class EditorFrame(ttk.Frame):
 
         # self.text.bind("<BackSpace>", self.back_space)
 
+        self.text.bind("<Configure>", self.update_line_number)
+
         self.text.bind("<Control-a>", self.select_all)
 
     def on_scroll(self, event=None):
@@ -55,6 +59,7 @@ class EditorFrame(ttk.Frame):
 
         if self.change_count:
             self.changed = True
+            file_controller.event.change_tab_name(event=event)
         self.change_count += 1
 
     def update_line_number(self, event=None):
@@ -79,3 +84,7 @@ class EditorFrame(ttk.Frame):
     def select_all(self, event=None):
         self.text.tag_add("sel", "1.0", "end")
         return "break"
+
+    
+    def get_src(self):
+        return self.text.get("1.0", "end-1c")
