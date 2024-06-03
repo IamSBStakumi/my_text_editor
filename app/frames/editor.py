@@ -1,6 +1,6 @@
-import os
 import tkinter as tk
 import tkinter.ttk as ttk
+
 from functions import file_controller
 
 
@@ -15,7 +15,7 @@ class EditorFrame(ttk.Frame):
 
     @property
     def path(self):
-        return self.path
+        return self._path
 
     @path.setter
     def path(self, opening_file_path):
@@ -41,7 +41,8 @@ class EditorFrame(ttk.Frame):
     def create_event(self):
         self.text.bind("<<Scroll>>", self.on_scroll)
 
-        self.text.bind("<<Change>>", self.on_change)
+        # self.text.bind("<<Change>>", self.on_change)
+        self.text.bind("<KeyRelease>", self.on_change)
 
         # self.text.bind("<Tab>", self.tab)
 
@@ -85,6 +86,5 @@ class EditorFrame(ttk.Frame):
         self.text.tag_add("sel", "1.0", "end")
         return "break"
 
-    
     def get_src(self):
         return self.text.get("1.0", "end-1c")
