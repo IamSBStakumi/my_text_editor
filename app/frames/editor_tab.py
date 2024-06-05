@@ -59,10 +59,7 @@ class EditorTab(ttk.Notebook):
         src = current_editor.get_src()
 
         file_name = filedialog.asksaveasfilename(initialdir=initial_dir)
-        if file_name is None:
-            # キャンセル選択時
-            return "break"
-        elif file_name:
+        if file_name:
             with open(file_name, "w", encoding="utf-8") as file:
                 file.write(src)
                 current_editor.changed = False
