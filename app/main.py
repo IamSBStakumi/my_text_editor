@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
+import functions.app_controller as app_controller
 import functions.file_controller as file_controller
 from frames.editor_tab import EditorTab
 from frames.menu import EditorMenu
@@ -12,6 +13,7 @@ class App(ttk.Frame):
         super().__init__(master)
         self.create_widgets()
         self.create_file_controller()
+        self.create_app_controller()
         self.create_global_shortcuts()
 
     def create_widgets(self):
@@ -29,10 +31,14 @@ class App(ttk.Frame):
     def create_file_controller(self):
         file_controller.set_file_controller(self, self.editor_frame, self.path_frame)
 
+    def create_app_controller(self):
+        app_controller.set_app_controller(self, self.master, self.editor_frame)
+
     def create_global_shortcuts(self):
         self.master.bind("<Control-KeyPress-s>", file_controller.event.save_file)
         self.master.bind("<Control-KeyPress-n>", file_controller.event.new_file)
         self.master.bind("<Control-KeyPress-o>", file_controller.event.open_file)
+        self.master.bind("<Control-KeyPress-q>", app_controller.event.quit_app)
 
 
 def main():

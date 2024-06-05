@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from functions import file_controller
+from functions import app_controller, file_controller
 
 
 class EditorMenu(tk.Menu):
@@ -37,7 +37,9 @@ class EditorMenu(tk.Menu):
             accelerator="Ctrl+Shift+S",
         )
         menu_file.add_separator()
-        menu_file.add_command(label="終了", accelerator="Ctrl+Q")
+        menu_file.add_command(
+            label="終了", command=app_controller.event.quit_app, accelerator="Ctrl+Q"
+        )
         self.add_cascade(menu=menu_file, label="ファイル")
 
     # def create_edit_menu(self):
