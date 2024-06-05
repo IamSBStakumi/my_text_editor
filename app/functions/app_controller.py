@@ -16,22 +16,23 @@ class Functions:
         self.root = root
 
     def quit_app(self, event=None):
-        # TODO: ファイルの変更が保存されていなければ、messageboxを出す
         if not self.editor_frame.tabs():
             self.root.destroy()
 
-        editors = self.editor_frame.winfo_children()
-        for editor in editors:
-            if editor.changed:
-                Messagebox = messagebox.askquestion(
-                    message="変更した内容は保存されませんが、よろしいですか"
-                )
-                if Messagebox == "yes":
-                    self.root.destroy()
-                    break
-                else:
-                    break
-        # self.root.destroy()
+        # 上記destroyが呼び出されても、winfo_childrenが呼び出されてしまう
+        # その際にコンソールに警告が出るのでelseを追加
+        else:
+            editors = self.editor_frame.winfo_children()
+            for editor in editors:
+                if editor.changed:
+                    Messagebox = messagebox.askquestion(
+                        message="変更した内容は保存されませんが、よろしいですか"
+                    )
+                    if Messagebox == "yes":
+                        self.root.destroy()
+                        break
+                    else:
+                        break
 
 
 event = MockFunctions()

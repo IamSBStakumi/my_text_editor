@@ -15,6 +15,7 @@ class App(ttk.Frame):
         self.create_file_controller()
         self.create_app_controller()
         self.create_global_shortcuts()
+        self.master.protocol("WM_DELETE_WINDOW", app_controller.event.quit_app)
 
     def create_widgets(self):
         self.path_frame = PathTreeFrame(self)
