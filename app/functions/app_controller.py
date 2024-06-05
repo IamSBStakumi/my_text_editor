@@ -33,6 +33,8 @@ class Functions:
                         break
                     else:
                         break
+                else:
+                    self.root.destroy()
 
 
 event = MockFunctions()
