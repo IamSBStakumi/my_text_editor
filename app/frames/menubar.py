@@ -3,7 +3,7 @@ import tkinter as tk
 from functions import app_controller, file_controller
 
 
-class EditorMenu(tk.Menu):
+class EditorMenubar(tk.Menu):
     def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
 

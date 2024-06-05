@@ -4,7 +4,7 @@ import tkinter.ttk as ttk
 import functions.app_controller as app_controller
 import functions.file_controller as file_controller
 from frames.editor_tab import EditorTab
-from frames.menu import EditorMenu
+from frames.menubar import EditorMenubar
 from frames.path_tree import PathTreeFrame
 
 
@@ -47,7 +47,7 @@ def main():
     root = tk.Tk()
     root.title("My Editor")
     app = App(root)
-    root["menu"] = EditorMenu()
+    root["menu"] = EditorMenubar()
     app.grid(column=0, row=0, sticky=(tk.N, tk.S, tk.E, tk.W))
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
