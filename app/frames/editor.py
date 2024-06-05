@@ -41,7 +41,7 @@ class EditorFrame(ttk.Frame):
     def create_event(self):
         self.text.bind("<<Scroll>>", self.on_scroll)
 
-        # self.text.bind("<<Change>>", self.on_change)
+        # TODO: ショートカットキーの入力も捉えてしまう
         self.text.bind("<KeyRelease>", self.on_change)
 
         # self.text.bind("<Tab>", self.tab)
