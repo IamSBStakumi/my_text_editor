@@ -27,7 +27,7 @@ class EditorTab(ttk.Notebook):
 
         now_open_tab = self.tabs()[-1]
         self.select(now_open_tab)
-        editor.focus_set()
+        editor.text.focus_set()
         return "break"
 
     def save_file(self, event=None, initial_dir=os.curdir):
