@@ -13,9 +13,10 @@ class EditorTab(ttk.Notebook):
         editor = EditorFrame(self, path)
 
         if path is None:
-            name = "new file"
+            name = "*new file"
 
             editor.change_count += 1
+            editor.changed = True
 
         else:
             name = os.path.basename(path)
@@ -26,6 +27,7 @@ class EditorTab(ttk.Notebook):
 
         now_open_tab = self.tabs()[-1]
         self.select(now_open_tab)
+        editor.focus_set()
         return "break"
 
     def save_file(self, event=None, initial_dir=os.curdir):
@@ -40,16 +42,14 @@ class EditorTab(ttk.Notebook):
             if file_name:
                 with open(file_name, "w", encoding="utf-8") as file:
                     file.write(src)
-
-                current_editor.path = file.name
-                self.tab(current_editor, text=os.path.basename(file.name))
+                    current_editor.path = file.name
+                    self.tab(current_editor, text=os.path.basename(file.name))
 
         else:
             with open(current_editor.path, "w", encoding="utf-8") as file:
                 file.write(src)
-
-        current_editor.changed = False
-        self.reset_tab_name()
+                current_editor.changed = False
+                self.reset_tab_name()
 
     def save_as(self, event=None, initial_dir=os.curdir):
         if not self.tabs():
@@ -59,12 +59,14 @@ class EditorTab(ttk.Notebook):
         src = current_editor.get_src()
 
         file_name = filedialog.asksaveasfilename(initialdir=initial_dir)
-        if file_name:
+        if file_name is None:
+            # キャンセル選択時
+            return "break"
+        elif file_name:
             with open(file_name, "w", encoding="utf-8") as file:
                 file.write(src)
-
-        current_editor.changed = False
-        self.reset_tab_name()
+                current_editor.changed = False
+                self.reset_tab_name()
 
     def _delete_tab(self):
         current = self.select()

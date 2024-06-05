@@ -39,6 +39,7 @@ class App(ttk.Frame):
         self.master.bind("<Control-KeyPress-s>", file_controller.event.save_file)
         self.master.bind("<Control-KeyPress-n>", file_controller.event.new_file)
         self.master.bind("<Control-KeyPress-o>", file_controller.event.open_file)
+        self.master.bind("<Control-Shift-KeyPress-s>", file_controller.event.save_as)
         self.master.bind("<Control-KeyPress-q>", app_controller.event.quit_app)
 
 
