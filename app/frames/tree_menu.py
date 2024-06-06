@@ -18,6 +18,8 @@ class TreeMenu(tk.Entry):
 
     def show_menu(self, event=None):
         try:
-            self.menu.tk_popup(event.x_root, event.y_root, 0)
+            self.menu.tk_popup(event.x_root, event.y_root, not bool(self.is_display))
+            self.is_display = not bool(self.is_display)
         finally:
             self.menu.grab_release()
+            self.is_display = not bool(self.is_display)
