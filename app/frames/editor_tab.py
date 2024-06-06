@@ -1,4 +1,5 @@
 import os
+import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import filedialog, messagebox
 
@@ -8,6 +9,10 @@ from frames.editor import EditorFrame
 class EditorTab(ttk.Notebook):
     def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
+        f = open("./app/images/delete.png", "rb")
+        photo_data = f.read()
+        f.close()
+        self.delete_button = tk.PhotoImage(data=photo_data)
 
     def add_tab(self, event=None, path=None):
         editor = EditorFrame(self, path)
@@ -23,7 +28,7 @@ class EditorTab(ttk.Notebook):
             with open(path, "r", encoding="utf-8") as file:
                 editor.text.insert("1.0", file.read())
 
-        self.add(editor, text=name)
+        self.add(editor, text=name, image=self.delete_button, compound="right")
 
         now_open_tab = self.tabs()[-1]
         self.select(now_open_tab)
@@ -75,6 +80,16 @@ class EditorTab(ttk.Notebook):
 
         current_editor = self.get_current_editor()
         if current_editor.changed:
+            if messagebox.askyesno(
+                message="変更した内容は保存されませんが、よろしいですか"
+            ):
+                self._delete_current_tab()
+
+        else:
+            self._delete_current_tab()
+
+    def delete_tab(self, event=None, editor=None):
+        if editor.changed:
             if messagebox.askyesno(
                 message="変更した内容は保存されませんが、よろしいですか"
             ):
