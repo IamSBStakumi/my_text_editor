@@ -3,7 +3,6 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import filedialog
 
-from frames.tree_menu import TreeMenu
 from functions import file_controller
 
 
@@ -30,12 +29,11 @@ class PathTreeFrame(ttk.Frame):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
 
-        # # treeを操作するメニュー
-        menu = TreeMenu(self)
-
         self.tree.bind("<<TreeviewOpen>>", self.open_node)
         self.tree.bind("<Double-1>", self.choose_file)
-        self.tree.bind("<Button-3>", lambda event: menu.show_menu(event))
+
+    def focus_node(self):
+        return self.tree.focus()
 
     def insert_node(self, parent, text, abspath):
         node = self.tree.insert(parent, "end", text=text, open=False)
@@ -47,11 +45,24 @@ class PathTreeFrame(ttk.Frame):
             self.nodes[node] = (True, abspath)
 
     def open_node(self, event):
-        node = self.tree.focus()
+        node = self.focus_node()
         already_open, abspath = self.nodes[node]
 
         if not already_open:
             self.tree.delete(self.tree.get_children(node))
+
+            # ディレクトリとファイルを分けてソートしたい
+            # sorted_dir = [
+            #     d
+            #     for d in os.listdir(abspath)
+            #     if os.path.isdir(os.path.join(abspath, d))
+            # ]
+            # sorted_file = [
+            #     f
+            #     for f in os.listdir(abspath)
+            #     if os.path.isfile(os.path.join(abspath, f))
+            # ]
+            # file_list = sorted_dir + sorted_file
 
             for entry in sorted(os.scandir(abspath), key=lambda path: path.name):
                 self.insert_node(node, entry.name, os.path.join(abspath, entry.path))
@@ -59,7 +70,7 @@ class PathTreeFrame(ttk.Frame):
             self.nodes[node] = (True, abspath)
 
     def choose_file(self, event):
-        node = self.tree.focus()
+        node = self.focus_node()
 
         if node:
             already_open, abspath = self.nodes[node]
