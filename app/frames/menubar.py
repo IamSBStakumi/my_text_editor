@@ -11,7 +11,7 @@ class EditorMenubar(tk.Menu):
         # self.create_edit_menu()
 
     def create_file_menu(self):
-        menu_file = tk.Menu(self)
+        menu_file = tk.Menu(self, tearoff=0)
         menu_file.add_command(
             label="新しいテキストファイル",
             command=file_controller.event.new_file,
