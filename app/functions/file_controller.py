@@ -44,8 +44,8 @@ class Functions:
     def change_tab_name(self, event=None):
         return self.editor_frame.change_tab_name()
 
-    def delete_tab(self, event=None):
-        return self.editor_frame.delete_tab(event=event)
+    def delete_current_tab(self, event=None):
+        return self.editor_frame.delete_current_tab(event=event)
 
 
 event = MockFunctions()

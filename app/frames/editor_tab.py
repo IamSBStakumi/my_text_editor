@@ -65,11 +65,11 @@ class EditorTab(ttk.Notebook):
                 current_editor.changed = False
                 self.reset_tab_name()
 
-    def _delete_tab(self):
+    def _delete_current_tab(self):
         current = self.select()
         self.forget(current)
 
-    def delete_tab(self, event=None):
+    def delete_current_tab(self, event=None):
         if not self.tabs():
             return "break"
 
@@ -78,10 +78,10 @@ class EditorTab(ttk.Notebook):
             if messagebox.askyesno(
                 message="変更した内容は保存されませんが、よろしいですか"
             ):
-                self._delete_tab()
+                self._delete_current_tab()
 
         else:
-            self._delete_tab()
+            self._delete_current_tab()
 
     def get_current_editor(self):
         current_widget_name = self.select().split(".")[-1]
