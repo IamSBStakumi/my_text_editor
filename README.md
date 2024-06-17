@@ -22,3 +22,8 @@ poetry install
 ```bash
 poetry run python main.py
 ```
+
+# Demo
+
+- Image
+![Demo Image](https://github.com/IamSBStakumi/my_text_editor/assets/122008180/b542919b-172e-4209-b3ec-d001e9a0eec3)
