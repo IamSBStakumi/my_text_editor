@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from frames.search_box import create_search_box
 from functions import file_controller
 
 
@@ -52,6 +53,8 @@ class EditorFrame(ttk.Frame):
 
         self.text.bind("<Control-a>", self.select_all)
 
+        self.text.bind("<Control-f>", self.search)
+
     def on_scroll(self, event=None):
         self.update_line_number(event=event)
 
@@ -88,3 +91,7 @@ class EditorFrame(ttk.Frame):
 
     def get_src(self):
         return self.text.get("1.0", "end-1c")
+
+    def search(self, event=None):
+        create_search_box(self.text)
+        return "break"
