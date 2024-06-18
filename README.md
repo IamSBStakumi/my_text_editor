@@ -1,8 +1,8 @@
 # My_Text_Editor
 
-| Lang                                                                                       | Editor                                                                                                                 |
-| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| ![Python](https://img.shields.io/badge/-Python-F2C63C.svg?logo=python&style=for-the-badge) | ![VSCode](https://img.shields.io/badge/-Visual%20Studio%20Code-007ACC.svg?logo=visual-studio-code&style=for-the-badge) |
+| Lang                                                                                       | Editor                                                                                                                 | Tool                                                                                                  |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| ![Python](https://img.shields.io/badge/-Python-F2C63C.svg?logo=python&style=for-the-badge) | ![VSCode](https://img.shields.io/badge/-Visual%20Studio%20Code-007ACC.svg?logo=visual-studio-code&style=for-the-badge) | ![pre-commit](https://img.shields.io/badge/-pre_commit-007ACC.svg?logo=precommit&style=for-the-badge) |
 
 ## Usage
 
@@ -26,4 +26,4 @@ poetry run python main.py
 # Demo
 
 - Image
-![Demo Image](https://github.com/IamSBStakumi/my_text_editor/assets/122008180/b542919b-172e-4209-b3ec-d001e9a0eec3)
+  ![Demo Image](https://github.com/IamSBStakumi/my_text_editor/assets/122008180/b542919b-172e-4209-b3ec-d001e9a0eec3)
