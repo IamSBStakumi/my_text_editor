@@ -29,8 +29,14 @@ class PathTreeFrame(ttk.Frame):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
 
+        self.context_menu = tk.Menu(self, tearoff=0)
+        self.context_menu.add_command(label="新規ファイル", command=self.create_file)
+        self.context_menu.add_command(label="新規フォルダ", command=self.create_folder)
+
         self.tree.bind("<<TreeviewOpen>>", self.open_node)
         self.tree.bind("<Double-1>", self.choose_file)
+        self.tree.bind("<Button-3>", self.popup_context_menu)
+        self.bind_all("<Button-1>", self.hide_context_menu_global, add="+")
 
     def insert_node(self, parent, text, abspath):
         node_label = os.path.basename(abspath) or abspath
@@ -70,3 +76,57 @@ class PathTreeFrame(ttk.Frame):
         if dir_name:
             self.root_path = dir_name
             self.create_widgets()
+
+    def popup_context_menu(self, event):
+        node = self.tree.identify_row(event.y)
+
+        if node:
+            self.tree.selection_set(node)
+            self.context_menu.post(event.x_root, event.y_root)
+            self._right_clicked_node = node
+
+    def create_file(self):
+        self._create_new_entry(is_folder=False)
+
+    def create_folder(self):
+        self._create_new_entry(is_folder=True)
+
+    def _create_new_entry(self, is_folder):
+        node = getattr(self, "_right_clicked_node", None)
+        if not node:
+            return
+
+        _, parent_path = self.nodes.get(node, (None, None))
+        if not parent_path:
+            return
+
+        name = tk.simpledialog.askstring("名前を入力", "名前を入力してください: ")
+        if not name:
+            return
+
+        new_path = os.path.join(parent_path, name)
+
+        try:
+            if is_folder:
+                os.makedirs(new_path)
+
+            else:
+                with open(new_path, "w", encoding="utf-8") as f:
+                    f.write("")
+
+            self.tree.delete(*self.tree.get_children(node))
+            self.nodes[node] = (False, parent_path)
+            self.open_node(None)
+
+        except Exception as e:
+            tk.messagebox.showerror("エラー", f"作成できませんでした: \n{e}")
+
+    def hide_context_menu_global(self, event=None):
+        self.after(100, self._safe_unpost_menu)
+
+    def _safe_unpost_menu(self):
+        if hasattr(self, "context_menu"):
+            try:
+                self.context_menu.unpost()
+            except Exception:
+                pass
