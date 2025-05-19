@@ -68,7 +68,7 @@ class PathTreeFrame(ttk.Frame):
         node = self.tree.focus()
 
         if node:
-            already_open, abspath = self.nodes[node]
+            _, abspath = self.nodes[node]
             if os.path.isfile(abspath):
                 file_controller.event.open_file(file_path=abspath)
 
