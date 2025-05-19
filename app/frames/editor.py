@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from frames.search_box import create_search_box
 from functions import file_controller
 
 
@@ -22,17 +23,23 @@ class EditorFrame(ttk.Frame):
         self._path = opening_file_path
 
     def create_widgets(self):
-        self.text = tk.Text(self, width=80, height=30)
+        self.text = tk.Text(self, width=80, height=30, wrap=tk.NONE)
         self.line_numbers = tk.Canvas(self, width=40)
-        self.scroll_bar = ttk.Scrollbar(
+        self.y_scroll_bar = ttk.Scrollbar(
             self, orient=tk.VERTICAL, command=self.text.yview
         )
+        self.x_scroll_bar = ttk.Scrollbar(
+            self, orient=tk.HORIZONTAL, command=self.text.xview
+        )
 
-        self.text.configure(yscrollcommand=self.scroll_bar.set)
+        self.text.configure(
+            yscrollcommand=self.y_scroll_bar.set, xscrollcommand=self.x_scroll_bar.set
+        )
 
         self.line_numbers.grid(row=0, column=0, sticky=(tk.N, tk.S))
         self.text.grid(row=0, column=1, sticky=(tk.N, tk.S, tk.W, tk.E))
-        self.scroll_bar.grid(row=0, column=2, sticky=(tk.N, tk.S))
+        self.y_scroll_bar.grid(row=0, column=2, sticky=(tk.N, tk.S))
+        self.x_scroll_bar.grid(row=1, column=1, sticky=(tk.E, tk.W))
 
         # 縦と、コード入力欄のみ拡大されるよう指定
         self.columnconfigure(1, weight=1)
@@ -51,6 +58,8 @@ class EditorFrame(ttk.Frame):
         self.text.bind("<Configure>", self.update_line_number)
 
         self.text.bind("<Control-a>", self.select_all)
+
+        self.text.bind("<Control-f>", self.search)
 
     def on_scroll(self, event=None):
         self.update_line_number(event=event)
@@ -88,3 +97,7 @@ class EditorFrame(ttk.Frame):
 
     def get_src(self):
         return self.text.get("1.0", "end-1c")
+
+    def search(self, event=None):
+        create_search_box(self.text)
+        return "break"
