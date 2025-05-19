@@ -48,14 +48,18 @@ class PathTreeFrame(ttk.Frame):
         else:
             self.nodes[node] = (True, abspath)
 
-    def open_node(self, event):
-        node = self.tree.focus()
-        already_open, abspath = self.nodes[node]
+    def open_node(self, event=None, node=None):
+        if node is None:
+            node = self.tree.focus()
+
+        already_open, abspath = self.nodes.get(node, (None, None))
 
         if not already_open:
             self.tree.delete(self.tree.get_children(node))
 
-            for entry in sorted(os.scandir(abspath), key=lambda path: path.name):
+            for entry in sorted(
+                os.scandir(abspath), key=lambda path: path.name.lower()
+            ):
                 self.insert_node(node, entry.name, os.path.join(abspath, entry.path))
 
             self.nodes[node] = (True, abspath)
@@ -115,8 +119,8 @@ class PathTreeFrame(ttk.Frame):
                     f.write("")
 
             self.tree.delete(*self.tree.get_children(node))
-            self.nodes[node] = (False, parent_path)
-            self.open_node(None)
+            # self.nodes[node] = (False, parent_path)
+            self.open_node(node=node)
 
         except Exception as e:
             tk.messagebox.showerror("エラー", f"作成できませんでした: \n{e}")
